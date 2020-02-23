@@ -32,7 +32,7 @@ Create table book (
 
 );
 
-Drop table if exists in incollection cascade;
+Drop table if exists incollection cascade;
 Create table incollection (
 	pubid int,
 	booktitle text,
