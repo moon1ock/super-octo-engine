@@ -28,8 +28,3 @@ select f from (select distinct Field.p as f, Pub.p as p from field inner join pu
 
 create index idx_pub on Pub (k);
 create index idx_field on Field (k);
-
-
-
-3.4
-select z.* from Pub x, Field y, Field z where x.k=y.k and y.k=z.k and x.p='www' and y.p= 'author' and z.p = 'url';
