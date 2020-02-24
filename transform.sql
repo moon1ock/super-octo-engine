@@ -4,4 +4,6 @@ insert into author values ((select v from Field where p = 'author') as "name", (
 
 
 
-3.4
+
+insert into author (name, homepage)
+select 
