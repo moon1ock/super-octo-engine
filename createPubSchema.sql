@@ -20,7 +20,7 @@ Create table article (
 	month text,
 	volume numeric,
 	number numeric,
-	foreign key (pubid) references publication (pubid)
+	/* foreign key (pubid) references publication (pubid) */
 );
 
 Drop table if exists book cascade;
@@ -28,7 +28,7 @@ Create table book (
 	pubid int,
 	publisher text,
 	isbn numeric,
-	foreign key (pubid) references publication (pubid)
+	/* foreign key (pubid) references publication (pubid) */
 
 );
 
@@ -38,7 +38,7 @@ Create table incollection (
 	booktitle text,
 	publisher text,
 	isbn numeric,
-	foreign key (pubid) references publication (pubid)
+	/* foreign key (pubid) references publication (pubid) */
 );
 
 Drop table if exists inproceedings cascade;
@@ -46,5 +46,5 @@ Create table inproceedings (
 	pubid int,
 	booktitle text,
 	editor text,
-	foreign key (pubid) references publication (pubid)
+	/* foreign key (pubid) references publication (pubid) */
 );
