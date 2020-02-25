@@ -69,7 +69,7 @@ select floor(year/10)*10 as dec, count(pubid) from publication group by dec;
 
 
 -- query 5
- create table colab (id numeric, cnt numeric);
+create table colab (id numeric, cnt numeric);
 
 insert into colab (id, cnt) select i.id, count(distinct c.id) from authored i, authored c where i.id != c.id and i.pubid = c.pubid group by i.id;
 
@@ -101,6 +101,3 @@ name            | cnt
  Michael I. Jordan         |  731
 (20 rows)
  */
-=======
--- QUERY 5
->>>>>>> 40eb914251627841d08eb4b21eccf8723f01cad4
