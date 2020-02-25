@@ -14,10 +14,19 @@ insert into tmpHomepages (key, homepage) select k, v from Field f where f.p = 'u
 
 -- create table authors and concatenate the tmp tables to get the actual set of authors
 
-create table authors (id int primary key, name text, homepage text);
-
-insert into authors (name, homepage) select tmpauthors.name, tmphomepages.homepage from tmpAuthors left outer join tmphomepages limit 10;
-
-
+create table authors (name text NOT NULL, homepage text NOT NULL);
+ -- the NOT NULL constraints have tp be imposed due to some
+insert into authors (name, homepage) select tmpauthors.name, tmphomepages.homepage from tmpauthors left outer join tmphomepages on tmpauthors.key=tmphomepages.key where tmpauthors.name IS NOT NULL AND tmphomepages.homepage IS NOT NULL;
 
 -- we know that every author is uniquely identified by their homepage! so we'll just need the id mapped from homepage and pubid to make the Authored statement
+alter table authors add id numeric;
+create sequence q;
+update authors set id = nextval('q');
+
+---DONE WITH AUTHORS
+
+
+
+
+
+
