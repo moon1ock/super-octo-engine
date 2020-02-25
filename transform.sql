@@ -77,7 +77,21 @@ insert into written (key, id) select own.key, authors.id from own left join auth
 create table authored (id numeric, pubid numeric);
 insert into authored (id, pubid) select written.id, publications.pubid from written left join publications on written.key = publications.pubkey where written.id is not NULL and publications.pubid is not null;
 
+-- relation author - authered is done
+-- make the article table
+
+create table tmparticles (pubkey text);
+insert into tmparticles (pubkey) select k from pub p where p.p = 'article'; -- keep all the article keys for convenience
+
+create table atcjr (key text, journal text);
+
+insert into atcjr (key, journal) select tmparticles.pubkey, field.v from tmparticles left join field on tmparticles.pubkey = field.k where field.p = 'journal' and tmparticles.pubkey is not null and field.v is not null; -- this will return pubkey to articles | journal table
+
+drop table atcjr; -- will not use it anymore
+create table atcvol (key text, journal text, volume text);
+
+create table articles (pubkey text, journal text, volume text, month text, nmbr text);
 
 
--- make an ISA table!
+
 
