@@ -22,10 +22,14 @@ insert into authors (name, homepage) select tmpauthors.name, tmphomepages.homepa
 alter table authors add id numeric;
 create sequence q;
 update authors set id = nextval('q');
-
+alter table authors add constraint authors_pk primary key (id);
 ---DONE WITH AUTHORS
 
+-- *********DO NOT FORGET TO DROP ADDITIONAL TABLES LATER ************-----
 
+-- deal with publication
+
+create table publications (pubid numeric unique not null, pubkey text not null unique, title text not null, year int not null);
 
 
 
