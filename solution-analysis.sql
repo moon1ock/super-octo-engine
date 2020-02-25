@@ -39,8 +39,18 @@ drop table tmppub, answer;
 
 
 
+<<<<<<< HEAD
  -- Query 4
  select floor(year/10)*10 as dec, count(pubid) from publication group by dec;
+=======
+ create table colab (id numeric, cnt numeric);
+
+insert into colab (id, cnt) select i.id, count(distinct c.id) from authored i, authored c where i.id != c.id and i.pubid = c.pubid group by i.id;
+
+create table topcolabs (name text, cnt numeric);
+
+
+>>>>>>> a029e224fd8e01da74f59cb5746e86f7490b9057
 
  /*
  dec  |  count  
