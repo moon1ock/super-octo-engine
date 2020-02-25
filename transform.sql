@@ -66,7 +66,6 @@ insert into own (key, name) select k, v from field f where f.p = 'author';
 -- search through names and lace them with authors
 drop table if exists written cascade;
 create table written (key text, id numeric);
-
 insert into written (key, id) select own.key, authors.id from own left join authors on own.name = authors.name where own.key IS NOT NULL and authors.id IS NOT NULL;
 
 -- at this moment the written table has keys to articles and id's to authors, all that is left is joining the id and pubid on key! way to go
@@ -83,13 +82,10 @@ insert into tmparticles (pubkey) select k from pub p where p.p = 'article'; -- k
 
 drop table if exists atcjr cascade;
 create table atcjr (key text, journal text);
-
 insert into atcjr (key, journal) select tmparticles.pubkey, field.v from tmparticles left join field on tmparticles.pubkey = field.k where field.p = 'journal' and tmparticles.pubkey is not null and field.v is not null; -- this will return pubkey to articles | journal table
 
 drop table if exists atcvol cascade;
 create table atcvol (key text, journal text, volume text);
-
-
 insert into atcvol (key, journal, volume) select atcjr.key, atcjr.journal, field.v from atcjr left join field on atcjr.key = field.k where field.p = 'volume' and atcjr.key is not null and field.v is not null;
 -- this is the table of articles with jornals and volumes
 
@@ -101,12 +97,10 @@ insert into atcmonth (key, journal, volume, month) select atcvol.key, atcvol.jou
 -- now we can finish the articles table
 
 
-insert into articles (pubkey, journal, volume, month , nmbr) select atcmonth.key, atcmonth.journal, atcmonth.volume, atcmonth.month, field.v from atcmonth left join field on atcmonth.key = field.k where field.p = 'number';
-
-
-
 drop table if exists articles cascade;
 create table articles (pubkey text, journal text, volume text, month text, nmbr text);
+insert into articles (pubkey, journal, volume, month , nmbr) select atcmonth.key, atcmonth.journal, atcmonth.volume, atcmonth.month, field.v from atcmonth left join field on atcmonth.key = field.k where field.p = 'number';
+
 -- at this moment the articles table is complete and we may drop all the side tables
 drop table tmparticles, atcjr, atcvol, atcmonth;
 
