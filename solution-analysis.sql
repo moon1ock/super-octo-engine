@@ -36,21 +36,11 @@ drop table tmppub, answer;
 
 
 -- Query 2
+select ad.aid as authorId, a.name as topAuthorsSTOC, count(ad.aid) as numberofpubs from authored ad, author a where ad.id = a.id and ad.pubid in (select inp.pubid from inproceedings inp where booktitle = "STOC") group by ad.aid, a.name order by count(ad.aid) desc limit 20;
 
 
-
-<<<<<<< HEAD
- -- Query 4
- select floor(year/10)*10 as dec, count(pubid) from publication group by dec;
-=======
- create table colab (id numeric, cnt numeric);
-
-insert into colab (id, cnt) select i.id, count(distinct c.id) from authored i, authored c where i.id != c.id and i.pubid = c.pubid group by i.id;
-
-create table topcolabs (name text, cnt numeric);
-
-
->>>>>>> a029e224fd8e01da74f59cb5746e86f7490b9057
+-- Query 4
+select floor(year/10)*10 as dec, count(pubid) from publication group by dec;
 
  /*
  dec  |  count  
@@ -69,5 +59,4 @@ create table topcolabs (name text, cnt numeric);
 (11 rows)
  */
 
-
-  -- QUERY 5
+-- QUERY 5
