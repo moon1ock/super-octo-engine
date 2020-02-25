@@ -143,7 +143,7 @@ drop table if exists inproceedings cascade;
 create table inproceedings(pubkey text, booktitle text, editor text);
 insert into inproceedings (pubkey, booktitle, editor) select tpbk.pubkey, tpbk.booktitle, field.v from tpbk full join field on tpbk.pubkey = field.k where field.p = 'editor' and tpbk.pubkey is not null;
 
-drop table tp, tpbk;
+drop table tp;
 
 
 
@@ -162,6 +162,12 @@ insert into book (pubkey, publisher, isbn) select pbk.pubkey, pbk.publisher, fie
 
 drop table bk, pbk;
 -- done with books
+
+
+
+-- ADD KEYS
+
+
 
 /*DATABASE IS DONE*/
 
