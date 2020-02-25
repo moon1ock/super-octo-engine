@@ -1,6 +1,6 @@
 -- here have a table author | key
 create table tmpAuthors (name text, key text);
-
+-- DO NOT DROP tmpAuthors just yet, will be needed later!
 insert into tmpAuthors (name, key) select v,k from Field f where f.p = 'author';
 
 
@@ -23,6 +23,7 @@ alter table authors add id numeric;
 create sequence q;
 update authors set id = nextval('q');
 alter table authors add constraint authors_pk primary key (id);
+drop sequence q;
 ---DONE WITH AUTHORS
 
 -- *********DO NOT FORGET TO DROP ADDITIONAL TABLES LATER ************-----
@@ -56,6 +57,31 @@ insert into publications (pubkey, year, title) select tmpubltitle.pk, tmpublyear
 
 delete from publications where pubkey = 'books/daglib/0079308'; -- now, lets impose the constraint of uniqueness onto publications
 
-alter table publications add constraint 
+alter table publications add constraint pubkey unique(pubkey);
+
+
+-- add pubie
+alter table publications add pubid numeric;
+create sequence q;
+update publications set pubid = nextval('q');
+
+
+
+
+
+-- table publication \ name
+create table own (key text, name text);
+insert into own (key, name) select k, v from field f where f.p = 'author';
+
+-- search through names and lace them with authors
+create table written (key text, id numeric);
+
+insert into written (key, id) select own.key, authors.id from own left join authors on own.name = authors.name where own.key IS NOT NULL and authors.id IS NOT NULL;
+
+-- at this moment the written table has keys to articles and id's to authors, all that is left is joining the id and pubid on key! way to go
+
+
+
+
 
 
