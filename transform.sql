@@ -36,9 +36,6 @@ drop sequence q;
 /* insert into publications (title) select f.v from Field f where f.p = 'title' and publications.pubkey = f.k; */
 
 
-create table keys (pk text); -- have a table of unique distinct keys
-insert into keys (pk) select distinct k from Field; -- populate the table
-
 create table tmpublyear (pk text, year int); -- table of key | yaar
 -- use these tables to full outer join with the other ones and have key | year | publications
 
@@ -66,9 +63,6 @@ create sequence q;
 update publications set pubid = nextval('q');
 
 
-
-
-
 -- table publication \ name
 create table own (key text, name text);
 insert into own (key, name) select k, v from field f where f.p = 'author';
@@ -80,8 +74,10 @@ insert into written (key, id) select own.key, authors.id from own left join auth
 
 -- at this moment the written table has keys to articles and id's to authors, all that is left is joining the id and pubid on key! way to go
 
+create table authored (id numeric, pubid numeric);
+insert into authored (id, pubid) select written.id, publications.pubid from written left join publications on written.key = publications.pubkey where written.id is not NULL and publications.pubid is not null;
 
 
 
-
+-- make an ISA table!
 
