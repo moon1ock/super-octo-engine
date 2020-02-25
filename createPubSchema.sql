@@ -1,6 +1,6 @@
 Drop table if exists author cascade;
 Create table author (
-	id int primary key,
+	-- id int primary key,
 	name text,
 	homepage text
 );
