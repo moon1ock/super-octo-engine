@@ -39,21 +39,11 @@ drop table tmppub, answer;
 
 
 
-<<<<<<< HEAD
  -- Query 4
  select floor(year/10)*10 as dec, count(pubid) from publication group by dec;
-=======
- create table colab (id numeric, cnt numeric);
-
-insert into colab (id, cnt) select i.id, count(distinct c.id) from authored i, authored c where i.id != c.id and i.pubid = c.pubid group by i.id;
-
-create table topcolabs (name text, cnt numeric);
-
-
->>>>>>> a029e224fd8e01da74f59cb5746e86f7490b9057
 
  /*
- dec  |  count  
+ dec  |  count
 ------+---------
  1910 |       1
  1930 |      56
@@ -70,4 +60,37 @@ create table topcolabs (name text, cnt numeric);
  */
 
 
-  -- QUERY 5
+
+-- query 5
+ create table colab (id numeric, cnt numeric);
+
+insert into colab (id, cnt) select i.id, count(distinct c.id) from authored i, authored c where i.id != c.id and i.pubid = c.pubid group by i.id;
+
+create table topcolabs (name text, cnt numeric);
+insert into topcolabs (name, cnt) select distinct kauthors.name, colab.cnt from authors left join colab on authors.id=colab.id where authors.name is not NULL and colab.cnt is not null order by colab.cnt desc;
+/*
+select * from topcolabs limit 20;
+name            | cnt
+---------------------------+------
+ Noga Alon                 | 1223
+ Athanasios V. Vasilakos   | 1085
+ Schahram Dustdar          | 1025
+ Carole A. Goble           |  978
+ Leonidas J. Guibas        |  939
+ Gerhard Weikum            |  881
+ H. Vincent Poor           |  873
+ Christos Faloutsos        |  870
+ Christos H. Papadimitriou |  858
+ Steffen Staab             |  835
+ Richard M. Karp           |  817
+ Moshe Y. Vardi            |  806
+ Ian T. Foster             |  796
+ Samuel Madden             |  772
+ Erik D. Demaine           |  764
+ Michael J. Franklin       |  763
+ Yolanda Gil               |  751
+ Stefano Ceri              |  740
+ Elisa Bertino             |  733
+ Michael I. Jordan         |  731
+(20 rows)
+ */

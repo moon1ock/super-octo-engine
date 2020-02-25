@@ -1,3 +1,5 @@
-# super-octo-engine
+# super-octo-engine on github
 
-don't procrastinate, kids
+
+collaborated: Andriy Lunin -- aal544 , Mikolaj Debicki - mad865
+
