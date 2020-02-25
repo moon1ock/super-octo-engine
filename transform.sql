@@ -114,5 +114,22 @@ drop table tmparticles, atcjr, atcvol, atcmonth;
 
 
 --- lets deal with incollections now in an analohous way!
+create table tmpinc (pubkey text);
+insert into tmpinc (pubkey) select k from pub p where p.p = 'incollection';
 
+
+create table incbk (pubkey text, booktitle text);
+insert into incbk (pubkey, booktitle) select tmpinc.pubkey, field.v from tmpinc left join field on tmpinc.pubkey = field.k where field.p = 'booktitle';
+
+-- after doing the below listed queries we did realize that no incollections in our verison of database seem to have an idbn value so we decided to drop it, and not deal with it
+
+/* create table ib (key text, booktitle text, isbn text); */
+/* insert into ib (key, booktitle, isbn) select incbk.pubkey, incbk.booktitle, field.v from incbk full join field on incbk.pubkey = field.k where     field.p = 'isbn'; */
+
+
+-- continuing with publisher
+
+
+create table ib (key text, booktitle text, publisher text);
+insert into ib (key, booktitle, publisher) select incbk.pubkey, incbk.booktitle, field.v from incbk full join field on incbk.pubkey = field.k where field.p = 'publisher' and incbk.pubkey is not null;
 
