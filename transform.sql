@@ -5,7 +5,6 @@ insert into tmpAuthors (name, key) select v,k from Field f where f.p = 'author';
 
 
 
-
 -- have a table key | homepage
 
 create table tmpHomepages (homepage text, key text);
@@ -26,15 +25,9 @@ alter table authors add constraint authors_pk primary key (id);
 drop sequence q;
 ---DONE WITH AUTHORS
 
--- *********DO NOT FORGET TO DROP ADDITIONAL TABLES LATER ************-----
+
 
 -- deal with publication
-
-
-/* insert into publications(pubkey) select distinct k from Field; */
-
-/* insert into publications (title) select f.v from Field f where f.p = 'title' and publications.pubkey = f.k; */
-
 
 create table tmpublyear (pk text, year int); -- table of key | yaar
 -- use these tables to full outer join with the other ones and have key | year | publications
@@ -76,7 +69,7 @@ insert into written (key, id) select own.key, authors.id from own left join auth
 
 create table authored (id numeric, pubid numeric);
 insert into authored (id, pubid) select written.id, publications.pubid from written left join publications on written.key = publications.pubkey where written.id is not NULL and publications.pubid is not null;
-
+drop table written;
 -- relation author - authered is done
 -- make the article table
 
@@ -99,7 +92,6 @@ insert into atcmonth (key, journal, volume, month) select atcvol.key, atcvol.jou
 
 -- just a reminder, we DO NOT LOOK at any faulty records, i.e those that do not have a month or volume specified, since our database is textbook perfect and we decided that we do want to keep the records clean and free of NULLs
 -- now we can finish the articles table
-
 
 
 insert into articles (pubkey, journal, volume, month , nmbr) select atcmonth.key, atcmonth.journal, atcmonth.volume, atcmonth.month, field.v from atcmonth left join field on atcmonth.key = field.k where field.p = 'number';
@@ -166,13 +158,10 @@ insert into pbk (pubkey, publisher) select bk.pubkey, field.v from bk left join 
 create table book (pubkey text, publisher text, isbn text);
 insert into book (pubkey, publisher, isbn) select pbk.pubkey, pbk.publisher, field.v from pbk full join field on pbk.pubkey = field.k where field.p = 'isbn' and pbk.pubkey is not null;
 
-
+drop table bk, pbk;
 -- done with books
 
-
-
-
-
+/*DATABASE IS DONE*/
 
 
 
