@@ -36,11 +36,17 @@ drop table tmppub, answer;
 
 
 -- Query 2
+select ad.aid as authorId, a.name as topAuthorsSTOC, count(ad.aid) as numberofpubs from authored ad, author a where ad.id = a.id and ad.pubid in (select inp.pubid from inproceedings inp where booktitle = "STOC") group by ad.aid, a.name order by count(ad.aid) desc limit 20;
 
 
+<<<<<<< HEAD
 
  -- Query 4
  select floor(year/10)*10 as dec, count(pubid) from publication group by dec;
+=======
+-- Query 4
+select floor(year/10)*10 as dec, count(pubid) from publication group by dec;
+>>>>>>> 40eb914251627841d08eb4b21eccf8723f01cad4
 
  /*
  dec  |  count
@@ -59,6 +65,7 @@ drop table tmppub, answer;
 (11 rows)
  */
 
+<<<<<<< HEAD
 
 
 -- query 5
@@ -94,3 +101,6 @@ name            | cnt
  Michael I. Jordan         |  731
 (20 rows)
  */
+=======
+-- QUERY 5
+>>>>>>> 40eb914251627841d08eb4b21eccf8723f01cad4
