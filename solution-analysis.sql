@@ -181,8 +181,13 @@ insert into asw (name, cnt) select distinct name, cnt from answer order by cnt d
 
 
 
+<<<<<<< HEAD
 -- Query 5
  create table colab (id numeric, cnt numeric);
+=======
+-- query 5
+create table colab (id numeric, cnt numeric);
+>>>>>>> a45f9ee2199dc92b9d2bb8a9428afcac3e3e3b42
 
 insert into colab (id, cnt) select i.id, count(distinct c.id) from authored i, authored c where i.id != c.id and i.pubid = c.pubid group by i.id;
 
@@ -213,4 +218,8 @@ name            | cnt
  Elisa Bertino             |  733
  Michael I. Jordan         |  731
 (20 rows)
+<<<<<<< HEAD
  */
+=======
+ */
+>>>>>>> a45f9ee2199dc92b9d2bb8a9428afcac3e3e3b42

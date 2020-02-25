@@ -167,7 +167,12 @@ drop table bk, pbk;
 
 -- ADD KEYS
 
-
+ALTER TABLE authored ADD FOREIGN KEY (id) REFERENCES authors(id);
+ALTER TABLE authored ADD FOREIGN KEY (pubid) REFERENCES publications(pubid);
+ALTER TABLE books ADD FOREIGN KEY (pubid) REFERENCES publications(pubid);
+ALTER TABLE incollection ADD FOREIGN KEY (pubid) REFERENCES publications(pubid);
+ALTER TABLE inproceedings ADD FOREIGN KEY (pubid) REFERENCES publications(pubid);
+ALTER TABLE articles ADD FOREIGN KEY (pubid) REFERENCES publications(pubid);
 
 /*DATABASE IS DONE*/
 
