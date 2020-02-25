@@ -127,9 +127,58 @@ insert into incbk (pubkey, booktitle) select tmpinc.pubkey, field.v from tmpinc 
 /* insert into ib (key, booktitle, isbn) select incbk.pubkey, incbk.booktitle, field.v from incbk full join field on incbk.pubkey = field.k where     field.p = 'isbn'; */
 
 
--- continuing with publisher
+
+create table incollection (key text, booktitle text, publisher text);
+insert into incollection (key, booktitle, publisher) select incbk.pubkey, incbk.booktitle, field.v from incbk full join field on incbk.pubkey = field.k where field.p = 'publisher' and incbk.pubkey is not null;
 
 
-create table ib (key text, booktitle text, publisher text);
-insert into ib (key, booktitle, publisher) select incbk.pubkey, incbk.booktitle, field.v from incbk full join field on incbk.pubkey = field.k where field.p = 'publisher' and incbk.pubkey is not null;
+drop table tmpinc, incbk;
+
+-- analogously dealing with the left inproceedings and books
+
+
+create table tp (pubkey text);
+insert into tp (pubkey) select k from pub p where p.p = 'inproceedings';
+
+
+
+create table tpbk (pubkey text, booktitle text);
+insert into tpbk (pubkey, booktitle) select tp.pubkey, field.v from tp left join field on tp.pubkey = field.k where field.p = 'booktitle';
+
+
+create table inproceedings(pubkey text, booktitle text, editor text);
+insert into inproceedings (pubkey, booktitle, editor) select tpbk.pubkey, tpbk.booktitle, field.v from tpbk full join field on tpbk.pubkey = field.k where field.p = 'editor' and tpbk.pubkey is not null;
+
+drop table tp, tpbk;
+
+
+
+
+create table bk (pubkey text);
+insert into bk (pubkey) select k from pub p where p.p = 'book';
+
+
+create table pbk (pubkey text, publisher text);
+insert into pbk (pubkey, publisher) select bk.pubkey, field.v from bk left join field on bk.pubkey = field.k where field.p = 'publisher';
+
+
+
+create table book (pubkey text, publisher text, isbn text);
+insert into book (pubkey, publisher, isbn) select pbk.pubkey, pbk.publisher, field.v from pbk full join field on pbk.pubkey = field.k where field.p = 'isbn' and pbk.pubkey is not null;
+
+
+-- done with books
+
+
+
+
+
+
+
+
+
+
+
+
+
 
