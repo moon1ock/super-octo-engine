@@ -87,11 +87,32 @@ create table atcjr (key text, journal text);
 
 insert into atcjr (key, journal) select tmparticles.pubkey, field.v from tmparticles left join field on tmparticles.pubkey = field.k where field.p = 'journal' and tmparticles.pubkey is not null and field.v is not null; -- this will return pubkey to articles | journal table
 
-drop table atcjr; -- will not use it anymore
 create table atcvol (key text, journal text, volume text);
 
+
+insert into atcvol (key, journal, volume) select atcjr.key, atcjr.journal, field.v from atcjr left join field on atcjr.key = field.k where field.p = 'volume' and atcjr.key is not null and field.v is not null;
+-- this is the table of articles with jornals and volumes
+
+
+create table atcmonth (key text, journal text, volume text, month text);
+insert into atcmonth (key, journal, volume, month) select atcvol.key, atcvol.journal, atcvol.volume, field.v from atcvol left join field on atcvol.key = field.k where field.p = 'month';
+
+-- just a reminder, we DO NOT LOOK at any faulty records, i.e those that do not have a month or volume specified, since our database is textbook perfect and we decided that we do want to keep the records clean and free of NULLs
+-- now we can finish the articles table
+
+
+
+insert into articles (pubkey, journal, volume, month , nmbr) select atcmonth.key, atcmonth.journal, atcmonth.volume, atcmonth.month, field.v from atcmonth left join field on atcmonth.key = field.k where field.p = 'number';
+
+
+
+
 create table articles (pubkey text, journal text, volume text, month text, nmbr text);
+-- at this moment the articles table is complete and we may drop all the side tables
+drop table tmparticles, atcjr, atcvol, atcmonth;
 
 
+
+--- lets deal with incollections now in an analohous way!
 
 
