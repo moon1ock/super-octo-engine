@@ -42,6 +42,13 @@ drop tmppub, answer;
 
  -- QUERY 5
 
+ create table colab (id numeric, cnt numeric);
+
+insert into colab (id, cnt) select i.id, count(distinct c.id) from authored i, authored c where i.id != c.id and i.pubid = c.pubid group by i.id;
+
+create table topcolabs (name text, cnt numeric);
+
+
 
 
 
